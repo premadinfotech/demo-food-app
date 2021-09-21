@@ -10,12 +10,15 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import {ScrollView, withNavigation} from 'react-navigation';
+import {ScrollView} from 'react-navigation';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Modal from 'react-native-modal';
+
+// Component
+import {showToast} from '../component/CustomToast';
 
 // Icon
 import ic_location from '../assets/icon/ic_location.png';
@@ -23,6 +26,12 @@ import ic_stopwatch from '../assets/icon/ic_stopwatch.png';
 import ic_vegetarian from '../assets/icon/ic_vegetarian.png';
 import ic_discount from '../assets/icon/ic_discount.png';
 import ic_cancel from '../assets/icon/ic_cancel.png';
+
+// User Preferences
+import {async_keys, storeData} from '../api/UserPreference';
+
+// Removing an Item from Async
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class RestaurantFoodComponent extends Component {
   constructor(props) {
@@ -33,8 +42,19 @@ export default class RestaurantFoodComponent extends Component {
     };
   }
 
-  handleCart = () => {
-    this.setState({checkCartItem: 1, isVisible: true});
+  handleCart = async () => {
+    let cart = [this.props.item];
+    this.setState({checkCartItem: 1});
+    await storeData(async_keys.getCartItem, cart);
+    showToast('Added to cart!');
+  };
+
+  handleCart1 = () => {
+    console.log('coming');
+    AsyncStorage.removeItem(async_keys.getCartItem);
+
+    this.setState({checkCartItem: '0'});
+    showToast('Item has been removed!');
   };
 
   handleClosePop = () => {

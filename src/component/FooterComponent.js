@@ -32,7 +32,7 @@ export default class FooterComponent extends PureComponent {
   };
 
   handleNotification1 = () => {
-    this.props.nav.navigate('Donation');
+    this.props.nav.navigate('Profile');
   };
 
   render() {
@@ -103,7 +103,7 @@ export default class FooterComponent extends PureComponent {
         <TouchableHighlight
           underlayColor="transparent"
           onPress={this.handleNotification1}
-          style={tab === 'Donation' ? selectedTabStyle : styles.footerMenu}>
+          style={tab === 'Profile' ? selectedTabStyle : styles.footerMenu}>
           <View style={styles.singleMenu}>
             <Image source={ic_man} style={styles.footerNavigatorIcon} />
             <Text

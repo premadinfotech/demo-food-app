@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Alert} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -24,9 +24,10 @@ import ic_favorite from '../assets/icon/ic_favorite.png';
 import ic_food_package from '../assets/icon/ic_food_package.png';
 import ic_help from '../assets/icon/ic_help.png';
 import ic_time from '../assets/icon/ic_time.png';
+import ic_logout from '../assets/icon/ic_logout.png';
 import {ScrollView} from 'react-native-gesture-handler';
 
-export default class DonationScreen extends Component {
+export default class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -42,6 +43,38 @@ export default class DonationScreen extends Component {
 
   handleScreen = () => {
     this.props.navigation.navigate('Screen');
+  };
+
+  handleYourOrder = () => {
+    this.props.navigation.navigate('YourOrder');
+  };
+
+  handleFavoriteOrder = () => {
+    this.props.navigation.navigate('FavoriteOrder');
+  };
+
+  handleNutritionOrder = () => {
+    this.props.navigation.navigate('NutritionOrder');
+  };
+
+  handleAddressBook = () => {
+    this.props.navigation.navigate('AddressBook');
+  };
+
+  handleAboutApp = () => {
+    this.props.navigation.navigate('AboutApp');
+  };
+
+  handleLogout = () => {
+    Alert.alert(
+      'Logout',
+      'Are you sure, you want to logout?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'OK', onPress: this.handleLogoutOkPress},
+      ],
+      {cancelable: false},
+    );
   };
 
   render() {
@@ -110,7 +143,7 @@ export default class DonationScreen extends Component {
 
             <View style={styles.tileContainer}>
               <ProfileItemTileComponent
-                route="Screen"
+                route="Payments"
                 title="Payments"
                 tileIcon={ic_card}
                 nav={navigation}
@@ -180,7 +213,7 @@ export default class DonationScreen extends Component {
               style={styles.optionIconStyle}
             />
 
-            <Text style={styles.optionTextStyle} onPress={this.handleScreen}>
+            <Text style={styles.optionTextStyle} onPress={this.handleYourOrder}>
               Your Orders
             </Text>
           </View>
@@ -192,7 +225,9 @@ export default class DonationScreen extends Component {
               style={styles.optionIconStyle}
             />
 
-            <Text style={styles.optionTextStyle} onPress={this.handleScreen}>
+            <Text
+              style={styles.optionTextStyle}
+              onPress={this.handleFavoriteOrder}>
               Favorite Orders
             </Text>
           </View>
@@ -204,7 +239,9 @@ export default class DonationScreen extends Component {
               style={styles.optionIconStyle}
             />
 
-            <Text style={styles.optionTextStyle} onPress={this.handleScreen}>
+            <Text
+              style={styles.optionTextStyle}
+              onPress={this.handleAddressBook}>
               Address Book
             </Text>
           </View>
@@ -230,7 +267,9 @@ export default class DonationScreen extends Component {
               style={styles.optionIconStyle}
             />
 
-            <Text style={styles.optionTextStyle} onPress={this.handleScreen}>
+            <Text
+              style={styles.optionTextStyle}
+              onPress={this.handleNutritionOrder}>
               Your Orders
             </Text>
           </View>
@@ -242,8 +281,20 @@ export default class DonationScreen extends Component {
               style={styles.optionIconStyle}
             />
 
-            <Text style={styles.optionTextStyle} onPress={this.handleScreen}>
+            <Text style={styles.optionTextStyle} onPress={this.handleAboutApp}>
               About
+            </Text>
+          </View>
+
+          <View style={styles.optionsContainer}>
+            <Image
+              source={ic_logout}
+              resizeMode="cover"
+              style={styles.optionIconStyle}
+            />
+
+            <Text style={styles.optionTextStyle} onPress={this.handleLogout}>
+              Log Out
             </Text>
           </View>
         </ScrollView>

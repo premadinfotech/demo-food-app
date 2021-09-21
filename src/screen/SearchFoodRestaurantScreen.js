@@ -37,100 +37,124 @@ export default class SearchFoodRestaurantScreen extends Component {
     this.state = {
       foodList: [
         {
+          id: '1',
           title: 'KFC',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹120',
           detail:
             'Save Rs 60 | 2 Veg Whopper + 1 King Peri Peri Friends + Veggie Strips',
           photo: burger,
+          foodName: 'Burger',
         },
         {
+          id: '2',
           title: 'Burger King',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
-          price: '₹120',
+          price: '₹100',
           detail:
             'Save Rs 60 | 2 Veg Whopper + 1 King Peri Peri Friends + Veggie Strips',
           photo: pasta,
+          foodName: 'Pizza',
         },
         {
+          id: '3',
           title: 'Agarwal Farm',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
-          price: '₹120',
+          price: '₹170',
           detail:
             'Save Rs 60 | 2 Veg Whopper + 1 King Peri Peri Friends + Veggie Strips',
           photo: pizza,
+          foodName: 'French Fries',
         },
         {
+          id: '4',
           title: 'KFC',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
-          price: '₹120',
+          price: '₹180',
           detail:
             'Save Rs 60 | 2 Veg Whopper + 1 King Peri Peri Friends + Veggie Strips',
           photo: burger,
+          foodName: 'RedPasta',
         },
         {
+          id: '5',
           title: 'Burger King',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
-          price: '₹120',
+          price: '₹220',
           detail:
             'Save Rs 60 | 2 Veg Whopper + 1 King Peri Peri Friends + Veggie Strips',
           photo: pasta,
+          foodName: 'White Pasta',
         },
         {
+          id: '6',
           title: 'Agarwal Farm',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
-          price: '₹120',
+          price: '₹200',
           detail:
             'Save Rs 60 | 2 Veg Whopper + 1 King Peri Peri Friends + Veggie Strips',
           photo: pizza,
+          foodName: 'Momos',
         },
         {
+          id: '7',
           title: 'KFC',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
-          price: '₹120',
+          price: '₹150',
           detail:
             'Save Rs 60 | 2 Veg Whopper + 1 King Peri Peri Friends + Veggie Strips',
           photo: burger,
+          foodName: 'Chilli Potato',
         },
         {
+          id: '8',
           title: 'Burger King',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
-          price: '₹120',
+          price: '₹160',
           detail:
             'Save Rs 60 | 2 Veg Whopper + 1 King Peri Peri Friends + Veggie Strips',
           photo: pasta,
+          foodName: 'Peppy Paneer Pizza',
         },
         {
+          id: '9',
           title: 'Agarwal Farm',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
-          price: '₹120',
+          price: '₹190',
           detail:
             'Save Rs 60 | 2 Veg Whopper + 1 King Peri Peri Friends + Veggie Strips',
           photo: pizza,
+          foodName: 'Extra Large Veg Pizza',
         },
         {
+          id: '10',
           title: 'KFC',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
-          price: '₹120',
+          price: '₹170',
           detail:
             'Save Rs 60 | 2 Veg Whopper + 1 King Peri Peri Friends + Veggie Strips',
           photo: burger,
+          foodName: 'Extra Large Non-Veg Pizza',
         },
         {
+          id: '11',
           title: 'Burger King',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
-          price: '₹120',
+          price: '₹190',
           detail:
             'Save Rs 60 | 2 Veg Whopper + 1 King Peri Peri Friends + Veggie Strips',
           photo: pasta,
+          foodName: 'King Burger (Large)',
         },
         {
+          id: '12',
           title: 'Agarwal Farm',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹120',
           detail:
             'Save Rs 60 | 2 Veg Whopper + 1 King Peri Peri Friends + Veggie Strips',
           photo: pizza,
+          foodName: 'Las Vega Chilli Pizza',
         },
       ],
     };
@@ -382,5 +406,22 @@ const styles = StyleSheet.create({
     fontSize: wp(4),
     // flex: 1,
     color: '#000',
+  },
+  viewCartButton: {
+    position: 'absolute',
+    height: hp(6),
+    width: wp(50),
+    top: hp(90),
+    // left:wp(60)
+    backgroundColor: '#ef4f5f',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: wp(2),
+  },
+  viewCartText: {
+    fontSize: wp(3.5),
+    fontWeight: '700',
+    color: '#fff',
+    marginHorizontal: wp(2),
   },
 });

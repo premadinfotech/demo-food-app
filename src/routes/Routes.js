@@ -11,12 +11,15 @@ import OTPScreen from '../screen/OTPScreen';
 import HomeScreen from '../screen/HomeScreen';
 import SearchFoodScreen from '../screen/SearchFoodScreen';
 import MembershipScreen from '../screen/MembershipScreen';
-import DonationScreen from '../screen/DonationScreen';
+import ProfileScreen from '../screen/ProfileScreen';
 import EditProfileScreen from '../screen/EditProfileScreen';
 import NotificationScreen from '../screen/NotificationScreen';
 import BookmarkScreen from '../screen/BookMarkScreen';
 import SearchFoodRestaurantScreen from '../screen/SearchFoodRestaurantScreen';
 import SettingsScreen from '../screen/SettingsScreen';
+import AddressBookScreen from '../screen/AddressBookScreen';
+import AboutAppScreen from '../screen/AboutAppScreen';
+import PaymentsScreen from '../screen/PaymentsScreen';
 import Screen from '../screen/Screen';
 
 // Delete Account
@@ -29,6 +32,11 @@ import DeleteAccountScreen5 from '../screen/DeleteAccountScreen5';
 
 // Your Ratings
 import YourRatingsScreen from '../screen/YourRatingsScreen';
+
+// Your Order
+import YourOrderScreen from '../screen/YourOrderScreen';
+import FavoriteOrderScreen from '../screen/FavoriteOrderScreen';
+import NutritionOrderScreen from '../screen/NutritionOrderScreen';
 
 const LoggedOutNavigator = createStackNavigator(
   {
@@ -48,7 +56,7 @@ const HomeNavigator = createStackNavigator(
     Home: HomeScreen,
     Search: SearchFoodScreen,
     Membership: MembershipScreen,
-    Donation: DonationScreen,
+    Profile: ProfileScreen,
     EditProfile: EditProfileScreen,
     Notification: NotificationScreen,
     Bookmark: BookmarkScreen,
@@ -61,6 +69,12 @@ const HomeNavigator = createStackNavigator(
     DeleteAccount4: DeleteAccountScreen4,
     DeleteAccount5: DeleteAccountScreen5,
     YourRatings: YourRatingsScreen,
+    YourOrder: YourOrderScreen,
+    FavoriteOrder: FavoriteOrderScreen,
+    NutritionOrder: NutritionOrderScreen,
+    AddressBook: AddressBookScreen,
+    AboutApp: AboutAppScreen,
+    Payments: PaymentsScreen,
     Screen: Screen,
   },
   {
@@ -96,12 +110,12 @@ const MembershipNavigator = createStackNavigator(
   },
 );
 
-const DonationNavigator = createStackNavigator(
+const ProfileNavigator = createStackNavigator(
   {
-    Donation: DonationScreen,
+    Profile: ProfileScreen,
   },
   {
-    initialRouteName: 'Donation',
+    initialRouteName: 'Profile',
     defaultNavigationOptions: {
       header: false,
     },
@@ -113,7 +127,7 @@ const LoggedInNavigator = createSwitchNavigator(
     Home: HomeNavigator,
     Search: SearchNavigator,
     Membership: MembershipNavigator,
-    Donation: DonationNavigator,
+    Profile: ProfileNavigator,
   },
   {
     initialRouteName: 'Home',
