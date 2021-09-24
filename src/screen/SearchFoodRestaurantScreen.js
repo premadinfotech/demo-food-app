@@ -18,6 +18,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 // Component
 import RestaurantFoodComponent from '../component/RestaurantFoodComponent';
+import CustomLoader from '../component/CustomLoader';
 
 // Icon
 import ic_scooter from '../assets/icon/ic_scooter.png';
@@ -38,7 +39,7 @@ export default class SearchFoodRestaurantScreen extends Component {
       foodList: [
         {
           id: '1',
-          title: 'KFC',
+          title: 'Aloo Patty Burger',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹120',
           detail:
@@ -48,7 +49,7 @@ export default class SearchFoodRestaurantScreen extends Component {
         },
         {
           id: '2',
-          title: 'Burger King',
+          title: 'White Pasta',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹100',
           detail:
@@ -58,7 +59,7 @@ export default class SearchFoodRestaurantScreen extends Component {
         },
         {
           id: '3',
-          title: 'Agarwal Farm',
+          title: 'OTC Pizza',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹170',
           detail:
@@ -68,7 +69,7 @@ export default class SearchFoodRestaurantScreen extends Component {
         },
         {
           id: '4',
-          title: 'KFC',
+          title: 'Extra Cheese Patty Burger',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹180',
           detail:
@@ -78,7 +79,7 @@ export default class SearchFoodRestaurantScreen extends Component {
         },
         {
           id: '5',
-          title: 'Burger King',
+          title: 'Regular Pasta',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹220',
           detail:
@@ -88,7 +89,7 @@ export default class SearchFoodRestaurantScreen extends Component {
         },
         {
           id: '6',
-          title: 'Agarwal Farm',
+          title: 'Cheese Burst Pizza',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹200',
           detail:
@@ -98,7 +99,7 @@ export default class SearchFoodRestaurantScreen extends Component {
         },
         {
           id: '7',
-          title: 'KFC',
+          title: 'Jumbo Burger',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹150',
           detail:
@@ -108,7 +109,7 @@ export default class SearchFoodRestaurantScreen extends Component {
         },
         {
           id: '8',
-          title: 'Burger King',
+          title: 'Sweet Corn Pasta',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹160',
           detail:
@@ -118,7 +119,7 @@ export default class SearchFoodRestaurantScreen extends Component {
         },
         {
           id: '9',
-          title: 'Agarwal Farm',
+          title: 'Peppy Paneer Pizza',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹190',
           detail:
@@ -128,7 +129,7 @@ export default class SearchFoodRestaurantScreen extends Component {
         },
         {
           id: '10',
-          title: 'KFC',
+          title: 'King Burger',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹170',
           detail:
@@ -138,7 +139,7 @@ export default class SearchFoodRestaurantScreen extends Component {
         },
         {
           id: '11',
-          title: 'Burger King',
+          title: 'Mushroom Pasta',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹190',
           detail:
@@ -148,7 +149,7 @@ export default class SearchFoodRestaurantScreen extends Component {
         },
         {
           id: '12',
-          title: 'Agarwal Farm',
+          title: 'Double Chicken Burger',
           description: 'In Super Saver Deals(Upto Rs 125 OFF)',
           price: '₹120',
           detail:
@@ -157,8 +158,21 @@ export default class SearchFoodRestaurantScreen extends Component {
           foodName: 'Las Vega Chilli Pizza',
         },
       ],
+      isLoading: true,
     };
   }
+
+  componentDidMount() {
+    setTimeout(this.initialSetup, 2000);
+  }
+
+  initialSetup = async () => {
+    try {
+      this.setState({isLoading: false});
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   handleBack = () => {
     this.props.navigation.pop();
@@ -173,6 +187,12 @@ export default class SearchFoodRestaurantScreen extends Component {
   itemSeparator = () => <View style={styles.separator} />;
 
   render() {
+    const {isLoading} = this.state;
+
+    if (isLoading) {
+      return <CustomLoader />;
+    }
+
     return (
       <SafeAreaView style={styles.container}>
         <TouchableOpacity

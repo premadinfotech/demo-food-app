@@ -358,8 +358,8 @@ const styles = StyleSheet.create({
     height: hp(6),
     alignItems: 'center',
     backgroundColor: '#fff',
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#999',
+    justifyContent: 'space-around',
+    // marginHorizontal: wp(2),
   },
   headerLocationIconStyle: {
     width: hp(3),

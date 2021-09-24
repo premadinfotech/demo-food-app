@@ -8,16 +8,19 @@ import {
   TextInput,
   ScrollView,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import ImageSlider from 'react-native-image-slider';
+import Modal from 'react-native-modal';
 
 // Component
 import FoodListComponent from '../component/FoodListComponent';
 import FooterComponent from '../component/FooterComponent';
+import CustomLoader from '../component/CustomLoader';
 
 // Icon
 import ic_location from '../assets/icon/ic_location.png';
@@ -28,6 +31,9 @@ import ic_search from '../assets/icon/ic_search.png';
 import banner from '../assets/image/banner.jpg';
 import banner1 from '../assets/image/banner1.jpg';
 import banner2 from '../assets/image/banner2.jpg';
+import burger from '../assets/image/burger.jpg';
+import pizza from '../assets/image/pizza.jpg';
+import pasta from '../assets/image/pasta.jpg';
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -40,6 +46,7 @@ export default class HomeScreen extends Component {
           description: 'Chinese, Italian, American Fast Food',
           offerText: '60% OFF upto ₹120',
           timeText: '40 mins',
+          photo: burger,
         },
         {
           title: 'Burger King',
@@ -47,6 +54,7 @@ export default class HomeScreen extends Component {
           description: 'Chinese, Italian, American Fast Food',
           offerText: '60% OFF upto ₹120',
           timeText: '40 mins',
+          photo: pizza,
         },
         {
           title: 'Agarwal Farm',
@@ -54,10 +62,37 @@ export default class HomeScreen extends Component {
           description: 'Chinese, Italian, American Fast Food',
           offerText: '60% OFF upto ₹120',
           timeText: '40 mins',
+          photo: pasta,
         },
       ],
+      isVisible: false,
+      isLoading: true,
     };
   }
+
+  componentDidMount() {
+    setTimeout(this.initialSetup, 2000);
+  }
+
+  initialSetup = async () => {
+    try {
+      this.setState({isLoading: false});
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  handlePopUp = () => {
+    this.setState({isVisible: true});
+  };
+
+  handleExit = () => {
+    this.setState({isVisible: false});
+  };
+
+  handleProfile = () => {
+    this.props.navigation.navigate('Profile');
+  };
 
   renderItem = ({item}) => (
     <FoodListComponent item={item} nav={this.props.navigation} />
@@ -68,6 +103,11 @@ export default class HomeScreen extends Component {
   itemSeparator = () => <View style={styles.separator} />;
 
   render() {
+    const {isLoading} = this.state;
+    if (isLoading) {
+      return <CustomLoader />;
+    }
+
     const images = [banner, banner1, banner2];
     return (
       <View style={styles.container}>
@@ -83,11 +123,13 @@ export default class HomeScreen extends Component {
 
           <View style={styles.userLogo}>
             <View style={styles.userLogoContainer}>
-              <Image
-                source={ic_userProfile}
-                resizeMode="cover"
-                style={styles.userProfileStyle}
-              />
+              <TouchableOpacity activeOpacity={1} onPress={this.handleProfile}>
+                <Image
+                  source={ic_userProfile}
+                  resizeMode="cover"
+                  style={styles.userProfileStyle}
+                />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -106,59 +148,88 @@ export default class HomeScreen extends Component {
           />
         </View>
 
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <View style={styles.scrollItemContainer}>
-            <Text style={styles.scrollTextStyle}>Max Pro</Text>
-          </View>
+        <ScrollView
+          horizontal={true}
+          nestedScrollEnabled={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            height: hp(8),
+            // backgroundColor: '#000',
+            marginBottom: hp(2),
+          }}>
+          <Modal style={styles.modalStyle} isVisible={this.state.isVisible}>
+            <View style={styles.contentContainer}>
+              <View style={styles.midContentContainer}>
+                <Text style={styles.mobileNumber}>Coming Soon</Text>
+              </View>
 
-          <View style={styles.scrollItemContainer}>
-            <Text style={styles.scrollTextStyle}>Cuisine</Text>
-          </View>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={this.handleExit}>
+                  <Text style={styles.exitText}>OK</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
 
-          <View style={styles.scrollItemContainer}>
-            <Text style={styles.scrollTextStyle}>Offer</Text>
-          </View>
+          <TouchableOpacity onPress={this.handlePopUp}>
+            <View style={styles.scrollItemContainer}>
+              <Text style={styles.scrollTextStyle}>Max Pro</Text>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.scrollItemContainer}>
-            <Text style={styles.scrollTextStyle}>Membership</Text>
-          </View>
+          <TouchableOpacity onPress={this.handlePopUp}>
+            <View style={styles.scrollItemContainer}>
+              <Text style={styles.scrollTextStyle}>Cuisine</Text>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.scrollItemContainer}>
-            <Text style={styles.scrollTextStyle}>Try New</Text>
-          </View>
+          <TouchableOpacity onPress={this.handlePopUp}>
+            <View style={styles.scrollItemContainer}>
+              <Text style={styles.scrollTextStyle}>Offer</Text>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.scrollItemContainer}>
-            <Text style={styles.scrollTextStyle}>Covid Max Safety</Text>
-          </View>
+          <TouchableOpacity onPress={this.handlePopUp}>
+            <View style={styles.scrollItemContainer}>
+              <Text style={styles.scrollTextStyle}>Membership</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={this.handlePopUp}>
+            <View style={styles.scrollItemContainer}>
+              <Text style={styles.scrollTextStyle}>Try New</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={this.handlePopUp}>
+            <View style={styles.scrollItemContainer}>
+              <Text style={styles.scrollTextStyle}>Covid Max Safety</Text>
+            </View>
+          </TouchableOpacity>
         </ScrollView>
 
-        <View
-          style={{
-            height: wp(40),
-            marginVertical: hp(2),
-            backgroundColor: '#fff',
-            borderRadius: wp(4),
-            marginHorizontal: wp(2),
-          }}>
-          <ImageSlider
-            loop
-            loopBothSides
-            autoPlayWithInterval={2000}
-            images={images}
-          />
-        </View>
+        <ScrollView>
+          <View style={styles.sliderContainer}>
+            <ImageSlider
+              loop
+              loopBothSides
+              autoPlayWithInterval={2000}
+              images={images}
+            />
+          </View>
 
-        <View style={styles.homeContainer}>
-          <FlatList
-            data={this.state.foodList}
-            renderItem={this.renderItem}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={this.keyExtractor}
-            ItemSeparatorComponent={this.itemSeparator}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.memberListContent}
-          />
-        </View>
+          <View style={styles.homeContainer}>
+            <FlatList
+              data={this.state.foodList}
+              renderItem={this.renderItem}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={this.keyExtractor}
+              ItemSeparatorComponent={this.itemSeparator}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.memberListContent}
+            />
+          </View>
+        </ScrollView>
 
         <FooterComponent nav={this.props.navigation} />
       </View>
@@ -175,6 +246,8 @@ const styles = StyleSheet.create({
     height: hp(6),
     alignItems: 'center',
     backgroundColor: '#fff',
+    justifyContent: 'space-around',
+    // marginHorizontal: wp(2),
   },
   headerLocationIconStyle: {
     width: hp(3),
@@ -239,15 +312,17 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(2),
   },
   homeContainer: {
-    height: hp(40),
-    // flex: 1,
+    // height: hp(40),
+    flex: 1,
     // alignItems: 'center',
     // justifyContent: 'center',
   },
   sliderContainer: {
-    height: hp(24),
-    marginHorizontal: wp(0.3),
-    marginTop: hp(6),
+    height: wp(40),
+    // marginVertical: hp(2),
+    backgroundColor: '#fff',
+    borderRadius: wp(4),
+    marginHorizontal: wp(2),
   },
   menuListContainer: {
     width: 'auto',
@@ -264,5 +339,45 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: wp(2),
+  },
+  modalStyle: {
+    backgroundColor: '#ffffff00',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+  },
+  contentContainer: {
+    width: wp(84),
+    padding: wp(5),
+    borderRadius: 2,
+    backgroundColor: '#fff',
+    alignSelf: 'center',
+  },
+  midContentContainer: {
+    justifyContent: 'space-around',
+  },
+  item: {
+    fontSize: wp(3.5),
+    color: '#000',
+  },
+  mobileNumber: {
+    marginTop: hp(2),
+    fontSize: wp(3.5),
+    fontWeight: '700',
+    color: '#000',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  exitText: {
+    paddingLeft: wp(2),
+    fontWeight: '700',
+    fontSize: wp(3.5),
+    color: '#ef4f5f',
+    marginLeft: wp(3),
   },
 });

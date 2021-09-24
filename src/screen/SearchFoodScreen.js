@@ -8,14 +8,16 @@ import {
   TextInput,
   ScrollView,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import Modal from 'react-native-modal';
 
 // Component
-import FoodListComponent from '../component/FoodListComponent';
+import SearchFoodComponent from '../component/SearchFoodComponent';
 import FooterComponent from '../component/FooterComponent';
 import SpecialFoodComponent from '../component/SpecialFoodComponent';
 
@@ -36,20 +38,20 @@ import ic_sweets from '../assets/icon/ic_sweets.png';
 import ic_healthy from '../assets/icon/ic_healthy.png';
 import ic_pure_veg from '../assets/icon/ic_pure_veg.png';
 
+import CustomLoader from '../component/CustomLoader';
+
 // Image
-import banner from '../assets/image/banner.jpg';
-import banner1 from '../assets/image/banner1.jpg';
-import banner2 from '../assets/image/banner2.jpg';
+// import banner from '../assets/image/banner.jpg';
+// import banner1 from '../assets/image/banner1.jpg';
+// import banner2 from '../assets/image/banner2.jpg';
+import burger from '../assets/image/burger.jpg';
+import pizza from '../assets/image/pizza.jpg';
+import pasta from '../assets/image/pasta.jpg';
 
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      specialFoodList: [
-        {
-          NAME: 'abc',
-        },
-      ],
       foodList: [
         {
           title: 'KFC',
@@ -57,6 +59,7 @@ export default class HomeScreen extends Component {
           description: 'Chinese, Italian, American Fast Food',
           offerText: '60% OFF upto ₹120',
           timeText: '40 mins',
+          photo: pizza,
         },
         {
           title: 'Burger King',
@@ -64,6 +67,7 @@ export default class HomeScreen extends Component {
           description: 'Chinese, Italian, American Fast Food',
           offerText: '60% OFF upto ₹120',
           timeText: '40 mins',
+          photo: pasta,
         },
         {
           title: 'Agarwal Farm',
@@ -71,13 +75,40 @@ export default class HomeScreen extends Component {
           description: 'Chinese, Italian, American Fast Food',
           offerText: '60% OFF upto ₹120',
           timeText: '40 mins',
+          photo: burger,
         },
       ],
+      isVisible: false,
+      isLoading: true,
     };
   }
 
+  componentDidMount() {
+    setTimeout(this.initialSetup, 2000);
+  }
+
+  initialSetup = async () => {
+    try {
+      this.setState({isLoading: false});
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  handlePopUp = () => {
+    this.setState({isVisible: true});
+  };
+
+  handleExit = () => {
+    this.setState({isVisible: false});
+  };
+
+  handleProfile = () => {
+    this.props.navigation.navigate('Profile');
+  };
+
   renderItem = ({item}) => (
-    <FoodListComponent item={item} nav={this.props.navigation} />
+    <SearchFoodComponent item={item} nav={this.props.navigation} />
   );
 
   keyExtractor = (item, index) => index.toString();
@@ -85,8 +116,12 @@ export default class HomeScreen extends Component {
   itemSeparator = () => <View style={styles.separator} />;
 
   render() {
+    const {isLoading} = this.state;
+    if (isLoading) {
+      return <CustomLoader />;
+    }
     const {navigation} = this.props;
-    const images = [banner, banner1, banner2];
+    // const images = [banner, banner1, banner2];
 
     return (
       <View style={styles.container}>
@@ -102,11 +137,13 @@ export default class HomeScreen extends Component {
 
           <View style={styles.userLogo}>
             <View style={styles.userLogoContainer}>
-              <Image
-                source={ic_userProfile}
-                resizeMode="cover"
-                style={styles.userProfileStyle}
-              />
+              <TouchableOpacity activeOpacity={1} onPress={this.handleProfile}>
+                <Image
+                  source={ic_userProfile}
+                  resizeMode="cover"
+                  style={styles.userProfileStyle}
+                />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -126,127 +163,156 @@ export default class HomeScreen extends Component {
         </View>
 
         <ScrollView
-          contentContainerStyle={{height: hp(4)}}
+          contentContainerStyle={{height: hp(6), marginBottom: hp(2)}}
           horizontal={true}
           showsHorizontalScrollIndicator={false}>
-          <View style={styles.scrollItemContainer}>
-            <Text style={styles.scrollTextStyle}>Max Pro</Text>
-          </View>
+          <Modal style={styles.modalStyle} isVisible={this.state.isVisible}>
+            <View style={styles.contentContainer}>
+              <View style={styles.midContentContainer}>
+                <Text style={styles.mobileNumber}>Coming Soon</Text>
+              </View>
 
-          <View style={styles.scrollItemContainer}>
-            <Text style={styles.scrollTextStyle}>Cuisine</Text>
-          </View>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={this.handleExit}>
+                  <Text style={styles.exitText}>OK</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
 
-          <View style={styles.scrollItemContainer}>
-            <Text style={styles.scrollTextStyle}>Offer</Text>
-          </View>
+          <TouchableOpacity onPress={this.handlePopUp}>
+            <View style={styles.scrollItemContainer}>
+              <Text style={styles.scrollTextStyle}>Max Pro</Text>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.scrollItemContainer}>
-            <Text style={styles.scrollTextStyle}>Membership</Text>
-          </View>
+          <TouchableOpacity onPress={this.handlePopUp}>
+            <View style={styles.scrollItemContainer}>
+              <Text style={styles.scrollTextStyle}>Cuisine</Text>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.scrollItemContainer}>
-            <Text style={styles.scrollTextStyle}>Try New</Text>
-          </View>
+          <TouchableOpacity onPress={this.handlePopUp}>
+            <View style={styles.scrollItemContainer}>
+              <Text style={styles.scrollTextStyle}>Offer</Text>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.scrollItemContainer}>
-            <Text style={styles.scrollTextStyle}>Covid Max Safety</Text>
-          </View>
+          <TouchableOpacity onPress={this.handlePopUp}>
+            <View style={styles.scrollItemContainer}>
+              <Text style={styles.scrollTextStyle}>Membership</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={this.handlePopUp}>
+            <View style={styles.scrollItemContainer}>
+              <Text style={styles.scrollTextStyle}>Try New</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={this.handlePopUp}>
+            <View style={styles.scrollItemContainer}>
+              <Text style={styles.scrollTextStyle}>Covid Max Safety</Text>
+            </View>
+          </TouchableOpacity>
         </ScrollView>
 
-        <View style={styles.tileGroup}>
-          <View style={styles.tileContainer}>
-            <SpecialFoodComponent
-              title="Outdoor"
-              tileIcon={ic_outdoor}
-              nav={navigation}
-            />
-            <SpecialFoodComponent
-              route="Screen"
-              title="Premium"
-              tileIcon={ic_diamond}
-              nav={navigation}
-            />
-            <SpecialFoodComponent
-              route="Screen"
-              title="Romantic"
-              tileIcon={ic_romantic}
-              nav={navigation}
-            />
-            <SpecialFoodComponent
-              route="Screen"
-              title="Pro"
-              tileIcon={ic_pro}
-              nav={navigation}
-            />
+        <ScrollView>
+          <View style={styles.tileGroup}>
+            <View style={styles.tileContainer}>
+              <SpecialFoodComponent
+                route="Screen"
+                title="Outdoor"
+                tileIcon={ic_outdoor}
+                nav={navigation}
+              />
+              <SpecialFoodComponent
+                route="Screen"
+                title="Premium"
+                tileIcon={ic_diamond}
+                nav={navigation}
+              />
+              <SpecialFoodComponent
+                route="Screen"
+                title="Romantic"
+                tileIcon={ic_romantic}
+                nav={navigation}
+              />
+              <SpecialFoodComponent
+                route="Screen"
+                title="Pro"
+                tileIcon={ic_pro}
+                nav={navigation}
+              />
+            </View>
+
+            <View style={styles.tileContainer}>
+              <SpecialFoodComponent
+                route="Screen"
+                title="Cafe"
+                tileIcon={ic_cafe}
+                nav={navigation}
+              />
+              <SpecialFoodComponent
+                route="Screen"
+                title="events"
+                tileIcon={ic_event}
+                nav={navigation}
+              />
+              <SpecialFoodComponent
+                route="Screen"
+                title="Pubs & bars"
+                tileIcon={ic_bar}
+                nav={navigation}
+              />
+              <SpecialFoodComponent
+                route="Screen"
+                title="Restaurant"
+                tileIcon={ic_restaurant}
+                nav={navigation}
+              />
+            </View>
+
+            <View style={styles.tileContainer}>
+              <SpecialFoodComponent
+                route="Screen"
+                title="Buffet"
+                tileIcon={ic_buffet}
+                nav={navigation}
+              />
+              <SpecialFoodComponent
+                route="Screen"
+                title="Desserts"
+                tileIcon={ic_sweets}
+                nav={navigation}
+              />
+              <SpecialFoodComponent
+                route="Screen"
+                title="Healthy"
+                tileIcon={ic_healthy}
+                nav={navigation}
+              />
+              <SpecialFoodComponent
+                route="Screen"
+                title="Pure Veg"
+                tileIcon={ic_pure_veg}
+                nav={navigation}
+              />
+            </View>
           </View>
 
-          <View style={styles.tileContainer}>
-            <SpecialFoodComponent
-              route="Screen"
-              title="Cafe"
-              tileIcon={ic_cafe}
-              nav={navigation}
-            />
-            <SpecialFoodComponent
-              route="Screen"
-              title="events"
-              tileIcon={ic_event}
-              nav={navigation}
-            />
-            <SpecialFoodComponent
-              route="Screen"
-              title="Pubs & bars"
-              tileIcon={ic_bar}
-              nav={navigation}
-            />
-            <SpecialFoodComponent
-              route="Screen"
-              title="Restaurant"
-              tileIcon={ic_restaurant}
-              nav={navigation}
+          <View style={styles.homeContainer}>
+            <FlatList
+              data={this.state.foodList}
+              renderItem={this.renderItem}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={this.keyExtractor}
+              ItemSeparatorComponent={this.itemSeparator}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.memberListContent}
             />
           </View>
-
-          <View style={styles.tileContainer}>
-            <SpecialFoodComponent
-              route="Screen"
-              title="Buffet"
-              tileIcon={ic_buffet}
-              nav={navigation}
-            />
-            <SpecialFoodComponent
-              route="Screen"
-              title="Desserts"
-              tileIcon={ic_sweets}
-              nav={navigation}
-            />
-            <SpecialFoodComponent
-              route="Screen"
-              title="Healthy"
-              tileIcon={ic_healthy}
-              nav={navigation}
-            />
-            <SpecialFoodComponent
-              route="Screen"
-              title="Pure Veg"
-              tileIcon={ic_pure_veg}
-              nav={navigation}
-            />
-          </View>
-        </View>
-
-        <View style={styles.homeContainer}>
-          <FlatList
-            data={this.state.foodList}
-            renderItem={this.renderItem}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={this.keyExtractor}
-            ItemSeparatorComponent={this.itemSeparator}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.memberListContent}
-          />
-        </View>
+        </ScrollView>
 
         <FooterComponent nav={this.props.navigation} />
       </View>
@@ -263,6 +329,8 @@ const styles = StyleSheet.create({
     height: hp(6),
     alignItems: 'center',
     backgroundColor: '#fff',
+    justifyContent: 'space-around',
+    // marginHorizontal: wp(2),
   },
   headerLocationIconStyle: {
     width: hp(3),
@@ -327,8 +395,8 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(2),
   },
   homeContainer: {
-    height: hp(40),
-    // flex: 1,
+    // height: hp(40),
+    flex: 1,
     // alignItems: 'center',
     // justifyContent: 'center',
   },
@@ -365,5 +433,45 @@ const styles = StyleSheet.create({
     marginVertical: wp(1),
     marginHorizontal: wp(2),
     flexDirection: 'row',
+  },
+  modalStyle: {
+    backgroundColor: '#ffffff00',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+  },
+  contentContainer: {
+    width: wp(84),
+    padding: wp(5),
+    borderRadius: 2,
+    backgroundColor: '#fff',
+    alignSelf: 'center',
+  },
+  midContentContainer: {
+    justifyContent: 'space-around',
+  },
+  item: {
+    fontSize: wp(3.5),
+    color: '#000',
+  },
+  mobileNumber: {
+    marginTop: hp(2),
+    fontSize: wp(3.5),
+    fontWeight: '700',
+    color: '#000',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  exitText: {
+    paddingLeft: wp(2),
+    fontWeight: '700',
+    fontSize: wp(3.5),
+    color: '#ef4f5f',
+    marginLeft: wp(3),
   },
 });

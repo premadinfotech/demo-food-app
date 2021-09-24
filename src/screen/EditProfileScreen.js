@@ -28,6 +28,7 @@ import {
 import {launchImageLibrary} from 'react-native-image-picker';
 
 // Component
+import CustomLoader from '../component/CustomLoader';
 
 // Icon
 import ic_username from '../assets/icon/ic_username.png';
@@ -44,8 +45,21 @@ export default class EditProfileScreen extends Component {
       phone: '',
       email: '',
       selectedFile: null,
+      isLoading: true,
     };
   }
+
+  componentDidMount() {
+    setTimeout(this.initialSetup, 2000);
+  }
+
+  initialSetup = async () => {
+    try {
+      this.setState({isLoading: false});
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   handleBack = () => {
     this.props.navigation.pop();
@@ -136,7 +150,11 @@ export default class EditProfileScreen extends Component {
   };
 
   render() {
-    const {selectedFile} = this.state;
+    const {isLoading, selectedFile} = this.state;
+
+    if (isLoading) {
+      return <CustomLoader />;
+    }
 
     const showStaticImage = (
       <Image source={ic_delivery_boy} resizeMode="cover" style={styles.logo} />

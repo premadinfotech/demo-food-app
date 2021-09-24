@@ -8,7 +8,7 @@ import {
 } from 'react-native-responsive-screen';
 
 // Image
-import burger from '../assets/image/burger.jpg';
+// import burger from '../assets/image/burger.jpg';
 // import pasta from '../assets/image/pasta.jpg';
 // import pizza from '../assets/image/pizza.jpg';
 
@@ -29,7 +29,7 @@ class FoodListComponent extends Component {
           activeOpacity={1}
           onPress={this.handleFindFoodRestaurant}>
           <Image
-            source={burger}
+            source={this.props.item.photo}
             resizeMode="cover"
             style={styles.foodImageStyle}
           />
@@ -114,9 +114,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   offerText: {
-    fontSize: wp(3.5),
+    fontSize: wp(3.2),
     fontWeight: '700',
     color: '#fff',
+    textAlign: 'center',
   },
   timeContainer: {
     position: 'absolute',

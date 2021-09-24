@@ -16,6 +16,7 @@ import SafeAreaView from 'react-native-safe-area-view';
 
 // Component
 import FavoriteOrderComponent from '../component/FavoriteOrderComponent';
+import CustomLoader from '../component/CustomLoader';
 
 // Icon
 import ic_back from '../assets/icon/ic_back.png';
@@ -79,8 +80,21 @@ export default class FavoriteOrderScreen extends Component {
           image: burger,
         },
       ],
+      isLoading: true,
     };
   }
+
+  componentDidMount() {
+    setTimeout(this.initialSetup, 2000);
+  }
+
+  initialSetup = async () => {
+    try {
+      this.setState({isLoading: false});
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   handleBack = () => {
     this.props.navigation.pop();
@@ -95,7 +109,11 @@ export default class FavoriteOrderScreen extends Component {
   itemSeparator = () => <View style={styles.separator} />;
 
   render() {
-    const {orderHistory} = this.state;
+    const {isLoading, orderHistory} = this.state;
+
+    if (isLoading) {
+      return <CustomLoader />;
+    }
 
     return (
       <SafeAreaView style={styles.container}>

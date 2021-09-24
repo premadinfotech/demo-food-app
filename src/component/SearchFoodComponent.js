@@ -1,16 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
-import {withNavigation} from 'react-navigation';
+// import {withNavigation} from 'react-navigation';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
-// Image
-import burger from '../assets/image/burger.jpg';
-import pasta from '../assets/image/pasta.jpg';
-import pizza from '../assets/image/pizza.jpg';
 
 export default class SearchFoodComponent extends Component {
   constructor(props) {
@@ -22,7 +17,7 @@ export default class SearchFoodComponent extends Component {
     return (
       <View style={styles.listContainer}>
         <Image
-          source={burger}
+          source={this.props.item.photo}
           resizeMode="cover"
           style={styles.foodImageStyle}
         />
@@ -106,9 +101,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   offerText: {
-    fontSize: wp(3.5),
+    fontSize: wp(3.2),
     fontWeight: '700',
     color: '#fff',
+    textAlign: 'center',
   },
   timeContainer: {
     position: 'absolute',

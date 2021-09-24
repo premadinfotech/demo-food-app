@@ -9,6 +9,7 @@ import {
 // Component
 import FooterComponent from '../component/FooterComponent';
 import ProfileItemTileComponent from '../component/ProfileItemTileComponent';
+import CustomLoader from '../component/CustomLoader';
 
 // Icon
 import ic_userProfile from '../assets/icon/ic_userProfile.png';
@@ -30,8 +31,22 @@ import {ScrollView} from 'react-native-gesture-handler';
 export default class ProfileScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: true,
+    };
   }
+
+  componentDidMount() {
+    setTimeout(this.initialSetup, 2000);
+  }
+
+  initialSetup = async () => {
+    try {
+      this.setState({isLoading: false});
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   handleEditProfile = () => {
     this.props.navigation.navigate('EditProfile');
@@ -78,6 +93,12 @@ export default class ProfileScreen extends Component {
   };
 
   render() {
+    const {isLoading} = this.state;
+
+    if (isLoading) {
+      return <CustomLoader />;
+    }
+
     const {navigation} = this.props;
 
     return (

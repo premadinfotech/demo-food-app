@@ -17,6 +17,7 @@ import {
 
 // Component
 import FooterComponent from '../component/FooterComponent';
+import CustomLoader from '../component/CustomLoader';
 
 // Icon
 import ic_location from '../assets/icon/ic_location.png';
@@ -38,6 +39,7 @@ export default class MembershipScreen extends Component {
     super(props);
     this.state = {
       checkCart: null,
+      isLoading: true,
     };
   }
 
@@ -49,7 +51,16 @@ export default class MembershipScreen extends Component {
 
   componentDidMount() {
     this.getItem();
+    setTimeout(this.initialSetup, 2000);
   }
+
+  initialSetup = async () => {
+    try {
+      this.setState({isLoading: false});
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   getItem = async () => {
     const findData = await getData(async_keys.getCartItem);
@@ -69,6 +80,12 @@ export default class MembershipScreen extends Component {
   };
 
   render() {
+    const {isLoading} = this.state;
+
+    if (isLoading) {
+      return <CustomLoader />;
+    }
+
     if (this.state.checkCart === null) {
       console.log('coming in IF');
       return (
@@ -335,9 +352,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: hp(6),
     alignItems: 'center',
-    // backgroundColor: '#fff',
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#999',
+    backgroundColor: '#fff',
+    justifyContent: 'space-around',
+    // marginHorizontal: wp(2),
   },
   headerLocationIconStyle: {
     width: hp(3),

@@ -6,6 +6,9 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
+// Component
+import CustomLoader from '../component/CustomLoader';
+
 // Icon
 import ic_back from '../assets/icon/ic_back.png';
 
@@ -15,8 +18,22 @@ import bookmark from '../assets/image/bookmark.jpg';
 export default class BookmarkScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: true,
+    };
   }
+
+  componentDidMount() {
+    setTimeout(this.initialSetup, 2000);
+  }
+
+  initialSetup = async () => {
+    try {
+      this.setState({isLoading: false});
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   handleBack = () => {
     this.props.navigation.pop();
@@ -27,9 +44,18 @@ export default class BookmarkScreen extends Component {
   };
 
   render() {
+    const {isLoading} = this.state;
+
+    if (isLoading) {
+      return <CustomLoader />;
+    }
+
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={this.handleBack} style={styles.headerStyle}>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={this.handleBack}
+          style={styles.headerStyle}>
           <Image
             source={ic_back}
             resizeMode="cover"
