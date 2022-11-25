@@ -88,6 +88,7 @@ const HomeNavigator = createStackNavigator(
 const SearchNavigator = createStackNavigator(
   {
     Search: SearchFoodScreen,
+    SearchFoodRestaurant: SearchFoodRestaurantScreen,
     Screen: Screen,
   },
   {

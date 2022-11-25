@@ -1,49 +1,57 @@
 /* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-// import {withNavigation} from 'react-navigation';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {withNavigation} from 'react-navigation';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-export default class SearchFoodComponent extends Component {
+class SearchFoodComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+  handleFindFoodRestaurant = () => {
+    this.props.navigation.navigate('SearchFoodRestaurant');
+  };
+
   render() {
     return (
       <View style={styles.listContainer}>
-        <Image
-          source={this.props.item.photo}
-          resizeMode="cover"
-          style={styles.foodImageStyle}
-        />
-        <View style={styles.infoContainer}>
-          <Text style={styles.restaurantName}>{this.props.item.title}</Text>
-          <View style={styles.ratingBox}>
-            <Text style={styles.ratingText}>{this.props.item.rating}</Text>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={this.handleFindFoodRestaurant}>
+          <Image
+            source={this.props.item.photo}
+            resizeMode="cover"
+            style={styles.foodImageStyle}
+          />
+          <View style={styles.infoContainer}>
+            <Text style={styles.restaurantName}>{this.props.item.title}</Text>
+            <View style={styles.ratingBox}>
+              <Text style={styles.ratingText}>{this.props.item.rating}</Text>
+            </View>
           </View>
-        </View>
-        <Text style={styles.foodDescriptionText}>
-          {this.props.item.description}
-        </Text>
+          <Text style={styles.foodDescriptionText}>
+            {this.props.item.description}
+          </Text>
 
-        <View style={styles.offerContainer}>
-          <Text style={styles.offerText}>{this.props.item.offerText}</Text>
-        </View>
+          <View style={styles.offerContainer}>
+            <Text style={styles.offerText}>{this.props.item.offerText}</Text>
+          </View>
 
-        <View style={styles.timeContainer}>
-          <Text style={styles.timeText}>{this.props.item.timeText}</Text>
-        </View>
+          <View style={styles.timeContainer}>
+            <Text style={styles.timeText}>{this.props.item.timeText}</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
-// export default withNavigation(FoodListComponent);
+export default withNavigation(SearchFoodComponent);
 
 const styles = StyleSheet.create({
   listContainer: {
